@@ -1,0 +1,505 @@
+@import "tailwindcss";
+
+/* ========================================
+   TERMINAL PORTFOLIO - BALANCED UI + PERFORMANCE
+   Premium visuals with smart optimizations
+   ======================================== */
+
+:root {
+  --font-mono: var(--font-mono);
+  --radius: 12px;
+  --transition-fast: 120ms ease-out;
+  --transition-smooth: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-mono);
+  background: #09090b;
+  color: #fafafa;
+  /* Consistent character widths for box-drawing */
+  font-variant-ligatures: none;
+  font-feature-settings: 'tnum' 1, 'calt' 0;
+  text-rendering: geometricPrecision;
+}
+
+/* ========================================
+   CONTAINER - PREMIUM BACKGROUND
+   ======================================== */
+
+.terminal-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  cursor: text;
+
+  /* Rich layered gradient */
+  background:
+    radial-gradient(ellipse 100% 80% at 50% -30%, rgba(139, 92, 246, 0.08), transparent 50%),
+    radial-gradient(ellipse 80% 60% at 100% 100%, rgba(6, 182, 212, 0.05), transparent 50%),
+    linear-gradient(180deg, #09090b 0%, #0c0c0f 100%);
+
+  /* Optimize compositing */
+  isolation: isolate;
+}
+
+/* Subtle noise texture - static, no animation */
+.terminal-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.012;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ========================================
+   CRT EFFECTS - ELEGANT & EFFICIENT
+   ======================================== */
+
+.crt-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.12) 100%);
+  z-index: 100;
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.02;
+  background: repeating-linear-gradient(0deg,
+      transparent 0px,
+      transparent 1px,
+      rgba(255, 255, 255, 0.08) 1px,
+      rgba(255, 255, 255, 0.08) 2px);
+  z-index: 101;
+}
+
+/* ========================================
+   TERMINAL WINDOW - PREMIUM GLASS
+   Full blur on desktop, reduced on mobile
+   ======================================== */
+
+.terminal-window {
+  width: 100%;
+  max-width: 900px;
+  height: 85vh;
+  max-height: 750px;
+  background: rgba(12, 12, 15, 0.92);
+  backdrop-filter: blur(32px) saturate(130%);
+  -webkit-backdrop-filter: blur(32px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 10;
+
+  /* Premium shadow stack with glow */
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 60px rgba(139, 92, 246, 0.15),
+    0 0 100px rgba(6, 182, 212, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.25),
+    0 16px 32px rgba(0, 0, 0, 0.2),
+    0 32px 64px rgba(0, 0, 0, 0.15);
+
+  /* Layout containment for perf */
+  contain: layout style;
+}
+
+/* Top glow accent */
+.terminal-window::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent);
+  z-index: 10;
+}
+
+/* ========================================
+   TITLE BAR
+   ======================================== */
+
+.terminal-titlebar {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.terminal-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.terminal-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+  cursor: default;
+}
+
+.terminal-btn:hover {
+  transform: scale(1.1);
+  opacity: 0.85;
+}
+
+.terminal-btn.close {
+  background: #ff5f57;
+}
+
+.terminal-btn.minimize {
+  background: #febc2e;
+}
+
+.terminal-btn.maximize {
+  background: #28c840;
+}
+
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.02em;
+}
+
+/* ========================================
+   TERMINAL CONTENT
+   ======================================== */
+
+.terminal-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 28px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--fg, #e4e4e7);
+
+  /* Optimize scrolling */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+
+  /* Containment */
+  contain: strict;
+}
+
+/* Premium Scrollbar */
+.terminal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+
+.terminal-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.terminal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* ========================================
+   TERMINAL LINES
+   ======================================== */
+
+.terminal-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 4px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.terminal-line.input .prompt,
+.terminal-input-line .prompt {
+  color: var(--prompt, #22c55e);
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.terminal-line.input .line-content {
+  color: var(--fg, #e4e4e7);
+}
+
+.terminal-line.output .line-content {
+  color: var(--fg, #a1a1aa);
+}
+
+.terminal-line.error .line-content {
+  color: var(--error, #ef4444);
+}
+
+.terminal-line.system .line-content {
+  color: var(--comment, #52525b);
+  font-size: 12px;
+}
+
+.terminal-line.ascii .line-content {
+  color: var(--accent, #a78bfa);
+  font-weight: 500;
+  line-height: 1.3;
+  /* Perfect box-drawing alignment */
+  white-space: pre;
+  letter-spacing: 0;
+  font-variant-ligatures: none;
+  -webkit-font-feature-settings: 'calt' 0;
+  font-feature-settings: 'calt' 0;
+}
+
+/* ========================================
+   INPUT LINE
+   ======================================== */
+
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 8px;
+}
+
+/* Input wrapper for text following cursor */
+.input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Visible text + cursor display */
+.input-display {
+  display: flex;
+  align-items: center;
+  white-space: pre;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--fg, #e4e4e7);
+  pointer-events: none;
+}
+
+.input-display .text-before,
+.input-display .text-after {
+  white-space: pre;
+}
+
+/* Hidden input overlay for capturing keystrokes */
+.terminal-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  color: transparent;
+  caret-color: transparent;
+  letter-spacing: 0.01em;
+}
+
+.terminal-input::selection {
+  background: transparent;
+}
+
+/* Ghost text hint for autocomplete */
+.ghost-text {
+  color: var(--comment, #52525b);
+  opacity: 0.5;
+  pointer-events: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Block cursor - smooth blink with glow */
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 20px;
+  background: var(--prompt, #22c55e);
+  border-radius: 2px;
+  animation: cursor-blink 1s ease-in-out infinite;
+  box-shadow: 0 0 10px var(--prompt, #22c55e);
+}
+
+@keyframes cursor-blink {
+
+  0%,
+  45% {
+    opacity: 1;
+    box-shadow: 0 0 15px var(--prompt, #22c55e);
+  }
+
+  50%,
+  95% {
+    opacity: 0.3;
+    box-shadow: 0 0 5px var(--prompt, #22c55e);
+  }
+
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 15px var(--prompt, #22c55e);
+  }
+}
+
+/* ========================================
+   SELECTION
+   ======================================== */
+
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: inherit;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .terminal-container {
+    padding: 16px;
+  }
+
+  .terminal-window {
+    height: 92vh;
+    max-height: none;
+    max-width: 100%;
+    border-radius: 10px;
+    /* Lighter blur on mobile */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .terminal-content {
+    font-size: 12px;
+    padding: 16px;
+    line-height: 1.65;
+  }
+
+  .terminal-titlebar {
+    padding: 12px 16px;
+  }
+
+  .terminal-title {
+    font-size: 11px;
+  }
+
+  .cursor {
+    width: 7px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-container {
+    padding: 8px;
+  }
+
+  .terminal-window {
+    /* Minimal blur on small mobile */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(12, 12, 15, 0.96);
+  }
+
+  .terminal-content {
+    font-size: 11px;
+    padding: 12px;
+  }
+
+  .terminal-btn {
+    width: 10px;
+    height: 10px;
+  }
+
+  .scanlines {
+    opacity: 0.01;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .terminal-container {
+    background: white;
+    padding: 0;
+  }
+
+  .terminal-window {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    backdrop-filter: none;
+  }
+
+  .crt-overlay,
+  .scanlines {
+    display: none;
+  }
+}
