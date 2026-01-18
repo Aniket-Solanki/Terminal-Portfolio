@@ -34,7 +34,7 @@ export const hackCommand = (): CommandResult => {
     const hex = () => Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
     const ip = () => Array(4).fill(0).map(() => Math.floor(Math.random() * 256)).join('.');
 
-    let output = `
+        const output = `
   +------------------------------------------------------------------------+
   |  HACK SEQUENCE INITIATED                                               |
   +------------------------------------------------------------------------+
